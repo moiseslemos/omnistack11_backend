@@ -2,19 +2,18 @@ const connection = require('../database/connection');
 
 module.exports = {
     async create(req, res) {
-        const { id } = req.body;
+        const { login, senha } = req.body;
 
-        console.log(id);
-
-        const ong = await connection('ongs')
-            .where('id', id)
-            .select('name')
+        const usuario = await connection('usuarios')
+            .where('login', login)
+            .andWhere('senha', senha)
+            .select('nome')
             .first();
 
-        if (!ong) {
-            return res.status(400).json({ error: 'ONG não encontrada!' })
+        if (!usuario) {
+            return res.status(400).json({ error: 'Usuário não encontrado!' })
         }
 
-        return res.json(ong);
+        return res.json(usuario);
     },
 };

@@ -8,8 +8,6 @@ module.exports = {
 
         const [count] = await connection('incidents').count();
 
-        console.log(count)
-
         const incidents = await connection('incidents')
             .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
             .limit(5)
@@ -22,13 +20,13 @@ module.exports = {
     },
 
     async create(req, res) {
-        const { title, descripton, value } = req.body;
+        const { title, description, value } = req.body;
 
         const ong_id = req.headers.authorization;
 
         const [id] = await connection('incidents').insert({
             title,
-            descripton,
+            description,
             value,
             ong_id
         });
